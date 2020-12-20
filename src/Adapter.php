@@ -12,9 +12,11 @@ use Psr\SimpleCache\CacheInterface;
 use DateInterval;
 use Throwable;
 
+use function is_iterable;
 use function get_class;
 use function is_object;
 use function is_string;
+use function implode;
 use function sprintf;
 use function is_int;
 
@@ -158,10 +160,32 @@ class Adapter implements CacheInterface
 
     public function setMultiple($values, $ttl = null): bool
     {
+        //
     }
 
     public function deleteMultiple($keys): bool
     {
+        $arr = $this->iterableToArray($keys);
+
+        if (null === $arr) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s::%s expects first parameter to be a string array, got "%s".',
+                    __CLASS__,
+                    __FUNCTION__,
+                    gettype($keys)
+                )
+            );
+        }
+
+        try {
+            return $this->pool->deleteItems($arr);
+        } catch (Throwable $e) {
+            throw new GeneralException(sprintf(
+                'Could not delete value to cache with keys "%s".',
+                implode(',', $arr)
+            ));
+        }
     }
 
     public function has($key): bool
@@ -195,5 +219,26 @@ class Adapter implements CacheInterface
     private function __construct(CacheItemPoolInterface $pool)
     {
         $this->pool = $pool;
+    }
+
+    private function iterableToArray($val): ?array
+    {
+        $arr = [];
+
+        if (is_iterable($val)) {
+            foreach ($val as $next) {
+                if (is_string($next)) {
+                    $arr[] = $next;
+
+                    continue;
+                }
+
+                return null;
+            }
+
+            return $arr;
+        }
+
+        return null;
     }
 }
