@@ -22,24 +22,24 @@ class SetTests extends Psr6TestCase
      */
     public function it_should_set_a_key($ttl): void
     {
+        $item = $this->createItem();
+
         $this
             ->pool
             ->getItem('KEY')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->set('VALUE')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->expiresAfter($ttl)
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
         $this
             ->pool
-            ->save($this->item->reveal())
+            ->save($item->reveal())
             ->willReturn(true);
 
         $result = $this->adapter->set('KEY', 'VALUE', $ttl);
@@ -53,24 +53,24 @@ class SetTests extends Psr6TestCase
      */
     public function it_should_fail_to_set_a_key($ttl): void
     {
+        $item = $this->createItem();
+
         $this
             ->pool
             ->getItem('KEY')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->set('VALUE')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->expiresAfter($ttl)
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
         $this
             ->pool
-            ->save($this->item->reveal())
+            ->save($item->reveal())
             ->willReturn(false);
 
         $result = $this->adapter->set('KEY', 'VALUE', $ttl);
@@ -138,13 +138,14 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
+        $item = $this->createItem();
+
         $this
             ->pool
             ->getItem('KEY')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->set('VALUE')
             ->willThrow(Exception::class);
 
@@ -158,18 +159,18 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
+        $item = $this->createItem();
+
         $this
             ->pool
             ->getItem('KEY')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->set('VALUE')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->expiresAfter(null)
             ->willThrow(Exception::class);
 
@@ -183,24 +184,24 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
+        $item = $this->createItem();
+
         $this
             ->pool
             ->getItem('KEY')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->set('VALUE')
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
-        $this
-            ->item
+        $item
             ->expiresAfter(null)
-            ->willReturn($this->item->reveal());
+            ->willReturn($item->reveal());
 
         $this
             ->pool
-            ->save($this->item->reveal())
+            ->save($item->reveal())
             ->willThrow(Exception::class);
 
         $this->adapter->set('KEY', 'VALUE');

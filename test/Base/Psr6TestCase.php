@@ -12,8 +12,6 @@ use Psr\Cache\CacheItemInterface;
 
 abstract class Psr6TestCase extends TestCase
 {
-    protected ObjectProphecy $item;
-
     protected ObjectProphecy $pool;
 
     protected Adapter $adapter;
@@ -23,7 +21,11 @@ abstract class Psr6TestCase extends TestCase
         parent::setUp();
 
         $this->pool    = $this->newMock(CacheItemPoolInterface::class);
-        $this->item    = $this->newMock(CacheItemInterface::class);
         $this->adapter = Adapter::create($this->pool->reveal());
+    }
+
+    protected function createItem(): ObjectProphecy
+    {
+        return $this->newMock(CacheItemInterface::class);
     }
 }
