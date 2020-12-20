@@ -142,6 +142,11 @@ class Adapter implements CacheInterface
 
     public function clear(): bool
     {
+        try {
+            return $this->pool->clear();
+        } catch (Throwable $e) {
+            throw new GeneralException('Could not clear cache with key.');
+        }
     }
 
     /**
