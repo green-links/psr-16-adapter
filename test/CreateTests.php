@@ -5,6 +5,8 @@ namespace Test;
 
 use GreenLinks\Psr16Adapter\Adapter;
 
+use Test\Base\TestCase;
+
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Cache\CacheItemInterface;
