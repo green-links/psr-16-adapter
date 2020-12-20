@@ -119,6 +119,25 @@ class Adapter implements CacheInterface
 
     public function delete($key): bool
     {
+        if (is_string($key)) {
+            try {
+                return $this->pool->deleteItem($key);
+            } catch (Throwable $e) {
+                throw new GeneralException(sprintf(
+                    'Could not delete value to cache with key "%s".',
+                    $key
+                ));
+            }
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                '%s::%s expects first parameter to be a string, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($key)
+            )
+        );
     }
 
     public function clear(): bool
