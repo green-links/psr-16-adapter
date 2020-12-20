@@ -166,6 +166,25 @@ class Adapter implements CacheInterface
 
     public function has($key): bool
     {
+        if (is_string($key)) {
+            try {
+                return $this->pool->hasItem($key);
+            } catch (Throwable $e) {
+                throw new GeneralException(sprintf(
+                    'Could not determine if cache has key "%s".',
+                    $key
+                ));
+            }
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                '%s::%s expects first parameter to be a string, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($key)
+            )
+        );
     }
 
     public function getCachePool(): CacheItemPoolInterface
