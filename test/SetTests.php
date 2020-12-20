@@ -22,7 +22,7 @@ class SetTests extends Psr6TestCase
      */
     public function it_should_set_a_key($ttl): void
     {
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -53,7 +53,7 @@ class SetTests extends Psr6TestCase
      */
     public function it_should_fail_to_set_a_key($ttl): void
     {
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -138,7 +138,7 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -159,7 +159,7 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -184,7 +184,7 @@ class SetTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool

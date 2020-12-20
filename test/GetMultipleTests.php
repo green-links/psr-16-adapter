@@ -17,8 +17,8 @@ class GetMultipleTests extends Psr6TestCase
      */
     public function it_should_get_multiple_keys(): void
     {
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $item1
             ->isHit()
@@ -51,8 +51,8 @@ class GetMultipleTests extends Psr6TestCase
      */
     public function it_should_return_a_default_if_one_of_the_keys_is_a_cache_miss(): void
     {
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $item1
             ->isHit()
@@ -118,8 +118,8 @@ class GetMultipleTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $item1
             ->isHit()
@@ -148,8 +148,8 @@ class GetMultipleTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $item1
             ->isHit()

@@ -24,7 +24,7 @@ abstract class Psr6TestCase extends TestCase
         $this->adapter = Adapter::create($this->pool->reveal());
     }
 
-    protected function createItem(): ObjectProphecy
+    protected function newItem(): ObjectProphecy
     {
         return $this->newMock(CacheItemInterface::class);
     }

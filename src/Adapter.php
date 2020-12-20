@@ -6,17 +6,17 @@ namespace GreenLinks\Psr16Adapter;
 use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
 use GreenLinks\Psr16Adapter\Exception\GeneralException;
 
-use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
+use Psr\Cache\CacheItemInterface;
 
 use DateInterval;
 use Throwable;
 
-use function array_map;
 use function array_reduce;
 use function is_iterable;
 use function array_keys;
+use function array_map;
 use function get_class;
 use function is_object;
 use function is_string;

@@ -20,7 +20,7 @@ class GetTests extends Psr6TestCase
      */
     public function it_should_get_a_key(): void
     {
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool

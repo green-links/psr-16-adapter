@@ -19,8 +19,8 @@ class SetMultipleTests extends Psr6TestCase
      */
     public function it_should_set_multiple_keys($ttl): void
     {
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $this
             ->pool
@@ -78,8 +78,8 @@ class SetMultipleTests extends Psr6TestCase
      */
     public function it_should_fail_to_set_multiple_keys($ttl): void
     {
-        $item1 = $this->createItem();
-        $item2 = $this->createItem();
+        $item1 = $this->newItem();
+        $item2 = $this->newItem();
 
         $this
             ->pool
@@ -211,7 +211,7 @@ class SetMultipleTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -235,7 +235,7 @@ class SetMultipleTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
@@ -263,7 +263,7 @@ class SetMultipleTests extends Psr6TestCase
     {
         $this->expectException(GeneralException::class);
 
-        $item = $this->createItem();
+        $item = $this->newItem();
 
         $this
             ->pool
