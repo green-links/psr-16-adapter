@@ -12,13 +12,13 @@ use Psr\SimpleCache\CacheInterface;
 use DateInterval;
 use Throwable;
 
-use function array_keys;
 use function array_reduce;
-use function is_array;
 use function is_iterable;
+use function array_keys;
 use function get_class;
 use function is_object;
 use function is_string;
+use function is_array;
 use function implode;
 use function sprintf;
 use function is_int;
@@ -62,7 +62,7 @@ class Adapter implements CacheInterface
                 throw new GeneralException(sprintf(
                     'Could not get value from cache with key "%s".',
                     $key
-                ));
+                ), 0, $e);
             }
 
             return $default;
@@ -124,7 +124,7 @@ class Adapter implements CacheInterface
                     throw new GeneralException(sprintf(
                         'Could not set value to cache with key "%s".',
                         $key
-                    ));
+                    ), 0, $e);
                 }
             }
 
@@ -157,7 +157,7 @@ class Adapter implements CacheInterface
                 throw new GeneralException(sprintf(
                     'Could not delete value to cache with key "%s".',
                     $key
-                ));
+                ), 0, $e);
             }
         }
 
@@ -176,7 +176,7 @@ class Adapter implements CacheInterface
         try {
             return $this->pool->clear();
         } catch (Throwable $e) {
-            throw new GeneralException('Could not clear cache.');
+            throw new GeneralException('Could not clear cache.', 0, $e);
         }
     }
 
@@ -192,14 +192,12 @@ class Adapter implements CacheInterface
         $arr = $this->iterableToArray($keys);
 
         if (null === $arr) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    '%s::%s expects first parameter to be a string array, got "%s".',
-                    __CLASS__,
-                    __FUNCTION__,
-                    gettype($keys)
-                )
-            );
+            throw new InvalidArgumentException(sprintf(
+                '%s::%s expects first parameter to be a string array, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($keys)
+            ));
         }
 
         try {
@@ -208,7 +206,7 @@ class Adapter implements CacheInterface
             throw new GeneralException(sprintf(
                 'Could not delete value to cache with keys "%s".',
                 implode(',', $arr)
-            ));
+            ), 0, $e);
         }
     }
 
@@ -221,7 +219,7 @@ class Adapter implements CacheInterface
                 throw new GeneralException(sprintf(
                     'Could not determine if cache has key "%s".',
                     $key
-                ));
+                ), 0, $e);
             }
         }
 
