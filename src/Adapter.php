@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 namespace GreenLinks\Psr16Adapter;
 
+use GreenLinks\Psr16Adapter\Exception\GeneralException;
+
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 
 use InvalidArgumentException;
+use Throwable;
 
 use function get_class;
 use function is_object;
-use function gettype;
+use function is_string;
 use function sprintf;
 
 class Adapter implements CacheInterface
@@ -43,6 +46,29 @@ class Adapter implements CacheInterface
      */
     public function get($key, $default = null)
     {
+        if (is_string($key)) {
+            try {
+                if ($this->pool->hasItem($key)) {
+                    return $this->pool->getItem($key)->get();
+                }
+            } catch (Throwable $e) {
+                throw new GeneralException(sprintf(
+                    'Could not get value from cache with key "%s".',
+                    $key
+                ));
+            }
+
+            return $default;
+        }
+
+        throw new \GreenLinks\Psr16Adapter\Exception\InvalidArgumentException(
+            sprintf(
+                '%s::%s expects first parameter to be a string, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($key)
+            )
+        );
     }
 
     public function set($key, $value, $ttl = null): bool
