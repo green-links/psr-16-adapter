@@ -12,6 +12,9 @@ use Psr\SimpleCache\CacheInterface;
 use DateInterval;
 use Throwable;
 
+use function array_keys;
+use function array_reduce;
+use function is_array;
 use function is_iterable;
 use function get_class;
 use function is_object;
@@ -71,6 +74,32 @@ class Adapter implements CacheInterface
                 __CLASS__,
                 __FUNCTION__,
                 gettype($key)
+            )
+        );
+    }
+
+    public function setMultiple($values, $ttl = null): bool
+    {
+        $isAssoc = is_array($values) && array_reduce(array_keys($values), function (bool $result, $key): bool {
+            return $result && is_string($key);
+        }, true);
+
+        if ($isAssoc) {
+            $result = true;
+
+            foreach ($values as $key => $value) {
+                $result = $this->set($key, $value, $ttl) && $result;
+            }
+
+            return $result;
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                '%s::%s expects first parameter to be an associative array, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($values)
             )
         );
     }
@@ -156,11 +185,6 @@ class Adapter implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
-    }
-
-    public function setMultiple($values, $ttl = null): bool
-    {
-        //
     }
 
     public function deleteMultiple($keys): bool
