@@ -9,9 +9,11 @@ use GreenLinks\Psr16Adapter\Exception\GeneralException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 
+use DateInterval;
 use Throwable;
 
 use function get_class;
+use function is_int;
 use function is_object;
 use function is_string;
 use function sprintf;
@@ -73,6 +75,46 @@ class Adapter implements CacheInterface
 
     public function set($key, $value, $ttl = null): bool
     {
+        if (is_string($key)) {
+            if (
+                ( $ttl instanceof DateInterval )
+                || ( is_int($ttl) &&  ($ttl > 0) )
+                || ( null === $ttl )
+            ) {
+                try {
+                    $item = $this
+                        ->pool
+                        ->getItem($key)
+                        ->set($value)
+                        ->expiresAfter($ttl);
+
+                    return $this->pool->save($item);
+                } catch (Throwable $e) {
+                    throw new GeneralException(sprintf(
+                        'Could not set value to cache with key "%s".',
+                        $key
+                    ));
+                }
+            }
+
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s::%s expects third parameter to be an integer, DateInterval, or null, got "%s".',
+                    __CLASS__,
+                    __FUNCTION__,
+                    gettype($key)
+                )
+            );
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                '%s::%s expects first parameter to be a string, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($key)
+            )
+        );
     }
 
     public function delete($key): bool
