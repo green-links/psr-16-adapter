@@ -13,10 +13,10 @@ use DateInterval;
 use Throwable;
 
 use function get_class;
-use function is_int;
 use function is_object;
 use function is_string;
 use function sprintf;
+use function is_int;
 
 class Adapter implements CacheInterface
 {
