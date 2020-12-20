@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Test;
 
-use Exception;
-use GreenLinks\Psr16Adapter\Exception\GeneralException;
 use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
+use GreenLinks\Psr16Adapter\Exception\GeneralException;
 
 use Test\Base\Psr6TestCase;
 
 use DateInterval;
+use Exception;
 
 /**
  * Tests for set method.

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Test;
 
-use GreenLinks\Psr16Adapter\Exception\GeneralException;
 use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
+use GreenLinks\Psr16Adapter\Exception\GeneralException;
 
 use Test\Base\Psr6TestCase;
 
