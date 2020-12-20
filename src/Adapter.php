@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace GreenLinks\Psr16Adapter;
 
+use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
 use GreenLinks\Psr16Adapter\Exception\GeneralException;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 
-use InvalidArgumentException;
 use Throwable;
 
 use function get_class;
@@ -61,7 +61,7 @@ class Adapter implements CacheInterface
             return $default;
         }
 
-        throw new \GreenLinks\Psr16Adapter\Exception\InvalidArgumentException(
+        throw new InvalidArgumentException(
             sprintf(
                 '%s::%s expects first parameter to be a string, got "%s".',
                 __CLASS__,

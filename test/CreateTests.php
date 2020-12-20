@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Test;
 
+use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
 use GreenLinks\Psr16Adapter\Adapter;
 
 use Test\Base\TestCase;
@@ -10,8 +11,6 @@ use Test\Base\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Cache\CacheItemInterface;
-
-use InvalidArgumentException;
 
 /**
  * Tests for static create method.
