@@ -1,0 +1,17 @@
+{
+    "autoload": {
+        "psr-4": {
+            "GreenLinks\\Psr16Adapter\\": "src"
+        }
+    },
+    "require": {
+        "psr/simple-cache": "^1.0",
+        "psr/cache":        "^1.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "scripts": {
+        "phpcs": "phpcs src"
+    }
+}
