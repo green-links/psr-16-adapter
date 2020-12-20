@@ -6,12 +6,14 @@ namespace GreenLinks\Psr16Adapter;
 use GreenLinks\Psr16Adapter\Exception\InvalidArgumentException;
 use GreenLinks\Psr16Adapter\Exception\GeneralException;
 
+use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
 
 use DateInterval;
 use Throwable;
 
+use function array_map;
 use function array_reduce;
 use function is_iterable;
 use function array_keys;
@@ -180,11 +182,33 @@ class Adapter implements CacheInterface
         }
     }
 
-    /**
-     * @return iterable
-     */
-    public function getMultiple($keys, $default = null)
+    public function getMultiple($keys, $default = null): array
     {
+        $arr = $this->iterableToArray($keys);
+
+        if (null === $arr) {
+            throw new InvalidArgumentException(sprintf(
+                '%s::%s expects first parameter to be a string array, got "%s".',
+                __CLASS__,
+                __FUNCTION__,
+                gettype($keys)
+            ));
+        }
+
+        try {
+            return array_map(function (CacheItemInterface $item) use ($default) {
+                if ($item->isHit()) {
+                    return $item->get();
+                }
+
+                return $default;
+            }, $this->pool->getItems($arr));
+        } catch (Throwable $e) {
+            throw new GeneralException(sprintf(
+                'Could not get value from cache with keys "%s".',
+                implode(',', $keys)
+            ), 0, $e);
+        }
     }
 
     public function deleteMultiple($keys): bool
