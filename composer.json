@@ -1,5 +1,7 @@
 {
     "name": "green-links/psr-16-adapter",
+    "description": "An adapter to convert PSR-6 caches into PSR-16 caches.",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
