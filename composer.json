@@ -1,4 +1,5 @@
 {
+    "name": "green-links/psr-16-adapter",
     "autoload": {
         "psr-4": {
             "GreenLinks\\Psr16Adapter\\": "src"
