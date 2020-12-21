@@ -1,5 +1,6 @@
 {
     "name": "green-links/psr-16-adapter",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "GreenLinks\\Psr16Adapter\\": "src"
